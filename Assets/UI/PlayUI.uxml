@@ -1,5 +1,10 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/PlayUI.uss?fileID=7433441132597879392&amp;guid=7730d101a0f06454c800ad8396bf6980&amp;type=3#PlayUI" />
+    <ui:VisualElement name="displayContent">
+        <ui:Label name="tabScore" text="Tabs: 0" />
+        <ui:Label name="spaceScore" text="Spaces: 0" />
+        <ui:Button name="closeButton" text="Close" />
+    </ui:VisualElement>
     <ui:VisualElement name="controlsContainer" class="flexContainer"> 
         <ui:VisualElement class="flexItem">
             <ui:Button name="spaceButton" text="Space" />
@@ -8,5 +13,4 @@
             <ui:Button name="tabButton" text="Tab" />
         </ui:VisualElement>
     </ui:VisualElement>
-    <ui:Button name="closeButton" text="Close" />
 </ui:UXML>
