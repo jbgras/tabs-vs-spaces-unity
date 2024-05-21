@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using SimpleJSON;
 
 public class ButtonManager : MonoBehaviour
 {
@@ -10,8 +11,9 @@ public class ButtonManager : MonoBehaviour
     private Label spaceScoreLabel;
     private int tabScore = 0;
     private int spaceScore = 0;
+    private TabsService tabsService;
 
-     private void OnEnable()
+    private void OnEnable()
     {
         var root = GetComponent<UIDocument>().rootVisualElement;
         tabButton = root.Q<Button>("tabButton");
@@ -25,10 +27,20 @@ public class ButtonManager : MonoBehaviour
         closeButton.clicked += OnCloseButtonClicked;
     }
 
+    void Awake()
+    {
+        tabsService = gameObject.AddComponent<TabsService>();
+    }
+
+    void Start() 
+    {
+        FetchTabScore(new JSONObject());
+    }
+
     private void OnTabButtonClicked()
     {
         OnButtonClicked("TabPrefab");
-        UpdateScore(ref tabScore, tabScoreLabel, 4, "Tabs");
+        tabsService.AttemptAddTabScore(FetchTabScore);
     }
 
     private void OnSpaceButtonClicked()
@@ -41,6 +53,17 @@ public class ButtonManager : MonoBehaviour
     {
         score += increment;
         scoreLabel.text = $"{scoreType}: {score}";
+    }
+    
+    void UpdateTabScoreDisplay(JSONNode response) 
+    {
+        tabScore = response.AsInt;
+        tabScoreLabel.text = $"Tabs: {tabScore}";
+    }
+
+    void FetchTabScore(JSONNode response)
+    {
+        tabsService.GetTabsScore(UpdateTabScoreDisplay);
     }
 
     private void OnDisable()
