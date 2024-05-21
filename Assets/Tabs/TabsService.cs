@@ -16,7 +16,7 @@ using SimpleJSON;
 public class TabsService : SimpleWebService
 {
 
-    string baseURL = "http://localhost:5001/tabs";
+    string baseURL = GameConfig.apiBaseUrl + "/tabs";
 
     public void GetTabsScore(CallBack callback) 
     {

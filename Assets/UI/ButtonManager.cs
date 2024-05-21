@@ -12,6 +12,7 @@ public class ButtonManager : MonoBehaviour
     private int tabScore = 0;
     private int spaceScore = 0;
     private TabsService tabsService;
+    private SpacesService spacesService;
 
     private void OnEnable()
     {
@@ -30,11 +31,13 @@ public class ButtonManager : MonoBehaviour
     void Awake()
     {
         tabsService = gameObject.AddComponent<TabsService>();
+        spacesService = gameObject.AddComponent<SpacesService>();
     }
 
     void Start() 
     {
         FetchTabScore(new JSONObject());
+        FetchSpaceScore(new JSONObject());
     }
 
     private void OnTabButtonClicked()
@@ -46,7 +49,7 @@ public class ButtonManager : MonoBehaviour
     private void OnSpaceButtonClicked()
     {
         OnButtonClicked("SpacePrefab");
-        UpdateScore(ref spaceScore, spaceScoreLabel, 1, "Spaces");
+        spacesService.AttemptAddSpaceScore(FetchSpaceScore);
     }
 
     private void UpdateScore(ref int score, Label scoreLabel, int increment, string scoreType)
@@ -64,6 +67,17 @@ public class ButtonManager : MonoBehaviour
     void FetchTabScore(JSONNode response)
     {
         tabsService.GetTabsScore(UpdateTabScoreDisplay);
+    }
+
+    void UpdateSpaceScoreDisplay(JSONNode response) 
+    {
+        spaceScore = response.AsInt;
+        spaceScoreLabel.text = $"Spaces: {spaceScore}";
+    }
+
+    void FetchSpaceScore(JSONNode response)
+    {
+        spacesService.GetSpacesScore(UpdateSpaceScoreDisplay);
     }
 
     private void OnDisable()
